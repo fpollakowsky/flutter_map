@@ -227,6 +227,8 @@ class TileLayer extends StatefulWidget {
   /// no affect.
   final TileUpdateTransformer tileUpdateTransformer;
 
+  final double tileOpacity;
+
   TileLayer({
     super.key,
     this.urlTemplate,
@@ -255,6 +257,7 @@ class TileLayer extends StatefulWidget {
     this.evictErrorTileStrategy = EvictErrorTileStrategy.none,
     this.reset,
     this.tileBounds,
+    this.tileOpacity = 1.0,
     TileUpdateTransformer? tileUpdateTransformer,
     String userAgentPackageName = 'unknown',
   })  : assert(
@@ -486,7 +489,9 @@ class _TileLayerState extends State<TileLayer> with TickerProviderStateMixin {
 
     _tileScaleCalculator.clearCacheUnlessZoomMatches(map.zoom);
 
-    return Container(
+    return Opacity(
+      opacity: widget.tileOpacity,
+      child: Container(
       color: widget.backgroundColor,
       child: Stack(
         children: [
@@ -508,6 +513,7 @@ class _TileLayerState extends State<TileLayer> with TickerProviderStateMixin {
           }),
         ],
       ),
+    ),
     );
   }
 
